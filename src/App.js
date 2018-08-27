@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
+// import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
+import SubmitArticleContract from '../build/contracts/SubmitArticle.json'
 import getWeb3 from './utils/getWeb3'
 
 import './css/oswald.css'
@@ -37,7 +38,7 @@ class App extends Component {
     })
   }
 
-  instantiateContract() {
+  async instantiateContract() {
     /*
      * SMART CONTRACT EXAMPLE
      *
@@ -46,32 +47,20 @@ class App extends Component {
      */
 
     const contract = require('truffle-contract')
-    const simpleStorage = contract(SimpleStorageContract)
-    simpleStorage.setProvider(this.state.web3.currentProvider)
+    const submitArticle = contract(SubmitArticleContract)
+    submitArticle.setProvider(this.state.web3.currentProvider)
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var simpleStorageInstance
-
-    // Get accounts.
+    var submitArticleInstance
+    
     this.state.web3.eth.getAccounts((error, accounts) => {
-      simpleStorage.deployed().then((instance) => {
-        simpleStorageInstance = instance
-
-        // Stores a given value, 5 by default.
-        return simpleStorageInstance.set(5, {from: accounts[0]})
-      }).then((result) => {
-        // Get the value from the contract to prove it worked.
-        return simpleStorageInstance.get.call(accounts[0])
-      }).then((result) => {
-        // Update state with the result.
-        console.log('line 67')
-        return this.setState({
-          storageValue: result.c[0],
-          contract: simpleStorageInstance,
-          account: accounts[0]
-        })
-      }).catch((e) => {
-        console.log(e)
+      submitArticle.deployed().then((instance) => {
+        submitArticleInstance = instance
+        const options = {
+          from: accounts[0]
+        }
+        return submitArticleInstance.addTitle("news story", options)
+          .then((result) => console.log(result))
+          .catch((e) => console.log(e))
       })
     })
   }
@@ -108,6 +97,9 @@ class App extends Component {
             </div>
           </div>
         </main>
+        <div className="storiesOfTheDay">
+          {'Stories of the Day'}
+        </div>
       </div>
     );
   }
