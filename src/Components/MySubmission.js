@@ -66,10 +66,12 @@ class SubmissionForm extends React.Component {
             {this.state.possibleDates.map(date => <option key={date} value={date}>{date}</option>)}
           </select>
           <br/>
-          <input type="submit" value="See My Submission" onChange={this.handleChange} />
+          <input type="submit" value="Fetch My Submission" onChange={this.handleChange} />
         </form>
         
         {this.state.displayedSubmission &&
+          <div>
+          <div className='title'>My Submission</div>
           <table className='mySubmissionTable'>
             <tbody>
               <tr>
@@ -92,6 +94,7 @@ class SubmissionForm extends React.Component {
               </tr>
             </tbody>
           </table>
+          </div>
         }
 
       </div>

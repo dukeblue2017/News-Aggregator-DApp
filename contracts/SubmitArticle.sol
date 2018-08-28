@@ -2,8 +2,14 @@ pragma solidity ^0.4.18;
 
 contract SubmitArticle {
   address[] public submitters;
-  
+
   event Success(bool didSucceed);
+
+  address owner;
+
+  constructor() {
+    owner = msg.sender;
+  }
 
   struct Article {
     address submitter;
@@ -23,6 +29,11 @@ contract SubmitArticle {
   
   modifier hasNotSubmitted() {
     require(submissions[msg.sender].exists == false, "User has already submitted an article");
+    _;
+  }
+
+  modifier isOwner() {
+    require(msg.sender == owner);
     _;
   }
 

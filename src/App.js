@@ -55,6 +55,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="storiesOfTheDay">Stories of the Day</div>
+        {this.state.account && <div className="yourAddress">Your Address: {this.state.account}</div>}
         {this.state.submitArticleInstance && <MySubmission account={this.state.account} submitArticleInstance={this.state.submitArticleInstance}/>}
         <SubmissionForm account={this.state.account} submitArticleInstance={this.state.submitArticleInstance} />
       </div>
