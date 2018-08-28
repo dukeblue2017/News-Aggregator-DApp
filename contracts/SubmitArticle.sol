@@ -85,7 +85,7 @@ contract SubmitArticle is PullPayment {
     return userSubmission.url;
   }
 
-  // calls Zeppelin's PullPayment (payee has to make a call to WithDrawPayments)
+  // calls Zeppelin's PullPayment (payee has to make a call to withdrawPayments)
   // cannot be paid out to the owner's own address
   function payout(address payoutAddress, uint256 payoutAmount)
     isOwner
