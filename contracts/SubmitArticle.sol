@@ -7,7 +7,7 @@ contract SubmitArticle {
 
   address owner;
 
-  constructor() {
+  constructor() public {
     owner = msg.sender;
   }
 
@@ -46,7 +46,7 @@ contract SubmitArticle {
     emit Success(true);
   }
 
-  function getMySubmission()
+  function getMySubmissionUrl()
     public
     view
     hasSubmitted
@@ -55,4 +55,12 @@ contract SubmitArticle {
     Article memory userSubmission = submissions[msg.sender];
     return userSubmission.url;
   }
+
+  function killContract()
+  public
+    isOwner
+  {
+    selfdestruct(owner);
+  }
+
 }
