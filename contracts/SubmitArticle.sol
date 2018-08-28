@@ -6,8 +6,8 @@ contract SubmitArticle is PullPayment {
   // the number of Wei required to submit an article
   uint public submissionCost;
 
-  // array of all submitter addresses, eventually to be used
-  // for grabbing all Articles from mapping
+  /* array of all submitter addresses, eventually to be used
+  for grabbing all Articles from mapping */
   address[] public submitters;
 
   // uint to keep track of array insertion point
@@ -17,11 +17,7 @@ contract SubmitArticle is PullPayment {
 
   address public owner;
 
-  constructor() public {
-    owner = msg.sender;
-    submissionCost = 1000;
-  }
-
+  // the basic unit by which we'll keep track of submitted articles
   struct Article {
     address submitter;
     string title;
@@ -32,8 +28,14 @@ contract SubmitArticle is PullPayment {
     uint submittersIndex;
   }
 
+  // the variable in which our submitted articles are stored
   mapping (address => Article) public submissions;
 
+  constructor() public {
+    owner = msg.sender;
+    submissionCost = 1000;
+  }
+  
   modifier hasSubmitted() {
     require(submissions[msg.sender].exists == true, "User has not yet submitted an article.");
     _;
@@ -49,9 +51,9 @@ contract SubmitArticle is PullPayment {
     _;
   }
 
-  // This is the central function. Using the UI, the user can submit an
-  // article, provided the requisite submissionCost is paid
-  // This updates the submissions mapping and the submitters array
+  /* This is the central function. Using the UI, the user can submit an
+  article, provided the requisite submissionCost is paid
+  This updates the submissions mapping and the submitters array */
   function addArticle(string title, string url, string author, string date)
     public
     payable
@@ -64,8 +66,8 @@ contract SubmitArticle is PullPayment {
     emit Success('article added');
   }
 
-  // can be called from the UI to delete a user's submitted article
-  // the user can resubmit afterwards, though the Article partially persists
+  /* can be called from the UI to delete a user's submitted article
+  the user can resubmit afterwards, though the Article partially persists */
   function deleteSubmission()
     hasSubmitted
   {
@@ -85,8 +87,8 @@ contract SubmitArticle is PullPayment {
     return userSubmission.url;
   }
 
-  // calls Zeppelin's PullPayment (payee has to make a call to withdrawPayments)
-  // cannot be paid out to the owner's own address
+  /* calls Zeppelin's PullPayment (payee has to make a call to withdrawPayments)
+  cannot be paid out to the owner's own address */
   function payout(address payoutAddress, uint256 payoutAmount)
     isOwner
   {
