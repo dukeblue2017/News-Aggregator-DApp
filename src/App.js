@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import SubmitArticleContract from '../build/contracts/SubmitArticle.json'
 import getWeb3 from './utils/getWeb3'
 import SubmissionForm from './Components/SubmissionForm'
+import MySubmission from './Components/MySubmission'
+
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -53,7 +55,8 @@ class App extends Component {
     return (
       <div className="App">
         <div className="storiesOfTheDay">Stories of the Day</div>
-        <SubmissionForm account={this.state.account} submitArticleInstance={this.state.submitArticleInstance}/>
+        {this.state.submitArticleInstance && <MySubmission account={this.state.account} submitArticleInstance={this.state.submitArticleInstance}/>}
+        <SubmissionForm account={this.state.account} submitArticleInstance={this.state.submitArticleInstance} />
       </div>
     );
   }
