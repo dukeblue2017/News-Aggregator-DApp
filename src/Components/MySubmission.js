@@ -11,6 +11,7 @@ class SubmissionForm extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteSubmission = this.deleteSubmission.bind(this);
     this.fetchMySubmission()
   }
 
@@ -58,6 +59,21 @@ class SubmissionForm extends React.Component {
       .catch((e) => console.log(e))
   }
 
+  deleteSubmission() {
+    const options = {from: this.props.account}
+    this.props.submitArticleInstance.deleteSubmission(options)
+      .then((result) => {
+        console.log(result)
+        const submissionExists = result[5];
+        if (!submissionExists) {
+          this.setState({
+            displayedSubmission: null
+          })
+        }
+      })
+      .catch((e) => console.log(e))
+  }
+
   render() {
     return (
       <div className='mySubmissionContainer'>
@@ -71,29 +87,30 @@ class SubmissionForm extends React.Component {
         
         {this.state.displayedSubmission &&
           <div>
-          <div className='title'>My Submission</div>
-          <table className='mySubmissionTable'>
-            <tbody>
-              <tr>
-                <td>Title:</td>
-                <td>{this.state.displayedSubmission.title}</td>
-              </tr>
-              <tr>
-                <td>URL:</td>
-                <td>
-                  <a href={this.state.displayedSubmission.url}>{this.state.displayedSubmission.url}</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Author:</td>
-                <td>{this.state.displayedSubmission.author}</td>
-              </tr>
-              <tr>
-                <td>Date:</td>
-                <td>{this.state.displayedSubmission.date}</td>
-              </tr>
-            </tbody>
-          </table>
+            <div className='title'>My Submission</div>
+            <table className='mySubmissionTable'>
+              <tbody>
+                <tr>
+                  <td>Title:</td>
+                  <td>{this.state.displayedSubmission.title}</td>
+                </tr>
+                <tr>
+                  <td>URL:</td>
+                  <td>
+                    <a href={this.state.displayedSubmission.url}>{this.state.displayedSubmission.url}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Author:</td>
+                  <td>{this.state.displayedSubmission.author}</td>
+                </tr>
+                <tr>
+                  <td>Date:</td>
+                  <td>{this.state.displayedSubmission.date}</td>
+                </tr>
+              </tbody>
+            </table>
+            <button onClick={this.deleteSubmission}>Delete Submission</button>
           </div>
         }
 

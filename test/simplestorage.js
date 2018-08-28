@@ -39,8 +39,7 @@ contract('SubmitArticle', function(accounts) {
       SubmitArticleInstance = instance;
 
       return SubmitArticleInstance.addArticle("testtitle", "testurl", "testauthor", "testdate", {from: accounts[0]});
-    }).then(function() {
-      return SubmitArticleInstance.submissions.call(accounts[0]);
+    }).then(function() {      return SubmitArticleInstance.submissions.call(accounts[0]);
     }).then(function(result) {
       const expectedTitle = 'testtitle'
       const actualTitle = result[1]

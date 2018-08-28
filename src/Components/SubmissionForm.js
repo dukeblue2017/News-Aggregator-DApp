@@ -36,12 +36,23 @@ class SubmissionForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const options = {
-      from: this.props.account
+      from: this.props.account,
+      value: 1000
     }
 
     this.props.submitArticleInstance.addArticle(this.state.title, this.state.url, this.state.author, this.state.date, options)
-      .then((result) => console.log(result))
-      .catch((e) => console.log(e))
+      .then((result) => {
+        console.log(result)
+        if (result.tx) {
+          alert('Article successfully submitted. Click "Fetch My Submission" to see its details.')
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+        if (e.message.match(/already submitted/)) {
+          alert('You have already submitted an article!')
+        }
+      })
   }
 
   render() {
